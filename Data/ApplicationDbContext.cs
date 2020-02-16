@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using GoThere.Models;
+using GoThere.Areas.Identity.Data;
 
 namespace GoThere.Data
 {
@@ -13,6 +14,9 @@ namespace GoThere.Data
             : base(options)
         {
         }
-        public DbSet<GoThere.Models.Location> Location { get; set; }
+        public DbSet<Location> Location { get; set; }
+
+        public DbSet<GoThereUser> GoThereUsers { get; set; }
+
     }
 }

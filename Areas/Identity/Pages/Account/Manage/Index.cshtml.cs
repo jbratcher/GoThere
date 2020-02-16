@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using GoThere.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,12 +12,12 @@ namespace GoThere.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<GoThereUser> _userManager;
+        private readonly SignInManager<GoThereUser> _signInManager;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<GoThereUser> userManager,
+            SignInManager<GoThereUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -35,9 +36,31 @@ namespace GoThere.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+            [StringLength(100, MinimumLength = 2)]
+            public string FirstName { get; set; }
+
+            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+            [StringLength(100, MinimumLength = 2)]
+            public string LastName { get; set; }
+
+            public string FullName = "{firstName} {lastName}";
+
+            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+            [StringLength(100, MinimumLength = 2)]
+            public string Occupation { get; set; }
+
+            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+            [StringLength(100, MinimumLength = 2)]
+            public string Industry { get; set; }
+
+            [Display(Name = "Postal Code")]
+            [StringLength(100, MinimumLength = 2)]
+            public string PostalCode { get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(GoThereUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
@@ -46,7 +69,7 @@ namespace GoThere.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
             };
         }
 
@@ -86,6 +109,33 @@ namespace GoThere.Areas.Identity.Pages.Account.Manage
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
+
+            if (!string.IsNullOrEmpty(Input.FirstName) && Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+            }
+
+            if (!string.IsNullOrEmpty(Input.LastName) && Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+            }
+
+            if (!string.IsNullOrEmpty(Input.Occupation) && Input.Occupation != user.Occupation)
+            {
+                user.Occupation = Input.Occupation;
+            }
+
+            if (!string.IsNullOrEmpty(Input.Industry) && Input.Industry != user.Industry)
+            {
+                user.Industry = Input.Industry;
+            }
+
+            if (!string.IsNullOrEmpty(Input.PostalCode) && Input.PostalCode != user.PostalCode)
+            {
+                user.FirstName = Input.PostalCode;
+            }
+
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

@@ -71,6 +71,33 @@ Tools => NuGet Package Manager => Package Manager Console
 * Manually create Data folder in Areas/Identity and add User class (GoThereUser.cs)
 * From the Package Manager Console, add a migration and update the database
 
+#### Update Scaffold for custom user class
+
+Several Identity/Pages must be updated to get the custom user class and fields working
+* In Startup.Configure Services:
+```
+services.AddIdentity<GoThereUser, IdentityRole>()
+    .AddDefaultTokenProviders()
+    .AddDefaultUI()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+```
+This configures the identity service to use the custom user class
+
+* In Shared/_LoginPartial.cshtml:
+```
+@using GoThere.Areas.Identity.Data;
+@inject SignInManager<GoThereUser> SignInManager
+@inject UserManager<GoThereUser> UserManager
+```
+This switch the user class from the generic to the custom
+
+In ApplicationDBContext.cs:
+```
+public DbSet<GoThereUser> GoThereUsers { get; set; }
+```
+
+In the Login, Register, and Logout pages, update the generic identity user class to the custom user class
+
 #### Create a model  
 
 [Create a model](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model?view=aspnetcore-3.1&tabs=visual-studio) 
@@ -104,3 +131,4 @@ At this point the application should be minimally functional allowing user actio
 * [RegularExpression()], [Required], and [DataType()] are commonly used
 
 
+#### 
