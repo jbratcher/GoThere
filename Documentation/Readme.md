@@ -96,7 +96,21 @@ In ApplicationDBContext.cs:
 public DbSet<GoThereUser> GoThereUsers { get; set; }
 ```
 
-In the Login, Register, and Logout pages, update the generic identity user class to the custom user class
+In the Login, Register, and Logout pages, update the generic identity user class to the custom user class  (Also _ManageNav need to have the user model changed, check others if an issue arises)
+
+In Identity/Pages/Account/Manage/Index.cshtml.cs:
+set get set fields for each user model field to manage
+```
+Input = new InputModel
+{
+    PhoneNumber = phoneNumber,
+    FirstName = user.FirstName,
+    LastName = user.LastName,
+    Occupation = user.Occupation,
+    Industry = user.Industry,
+    PostalCode = user.PostalCode,
+};
+```
 
 #### Create a model  
 

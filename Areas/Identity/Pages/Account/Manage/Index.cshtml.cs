@@ -24,6 +24,11 @@ namespace GoThere.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Occupation { get; set; }
+        public string Industry { get; set; }
+        public string PostalCode { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -70,6 +75,11 @@ namespace GoThere.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Occupation = user.Occupation,
+                Industry = user.Industry,
+                PostalCode = user.PostalCode,
             };
         }
 
