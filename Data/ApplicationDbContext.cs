@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace GoThere.Data
 {
-    public class ApplicationDbContext     : IdentityDbContext<GoThereUser, IdentityRole<Guid>, Guid>
+    public class ApplicationDbContext : IdentityDbContext<GoThereUser, IdentityRole<Guid>, Guid>
 
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
