@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace GoThere.Areas.Identity.Data
 {
-    // Add profile data for application users by adding properties to the GoThereUser class
-    public class GoThereUser : IdentityUser<Guid>
+    // Add profile data for application users by adding properties to the ApplicationUser class
+    public class ApplicationUser : IdentityUser<Guid>
     {
         [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
         [StringLength(100, MinimumLength = 2)]

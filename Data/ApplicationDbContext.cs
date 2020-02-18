@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace GoThere.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<GoThereUser, IdentityRole<Guid>, Guid>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -18,7 +18,7 @@ namespace GoThere.Data
         }
         public DbSet<Location> Location { get; set; }
 
-        public DbSet<GoThereUser> GoThereUsers { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     }
 }

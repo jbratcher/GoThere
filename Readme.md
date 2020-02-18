@@ -62,7 +62,7 @@ This project uses local users and the ASP.NET Core Identity module for user auth
     * Select Overide All files (full UI control)
     * Select the ApplicationDBContext for the context
     * Select Add.
-* Manually create Data folder in Areas/Identity and add User class (GoThereUser.cs)
+* Manually create Data folder in Areas/Identity and add User class (ApplicationUser.cs)
 * From the Package Manager Console, add a migration and update the database
 
 #### Update Scaffolded items to use custom user class
@@ -73,14 +73,14 @@ This project uses local users and the ASP.NET Core Identity module for user auth
 
 In ApplicationDBContext.cs, create a DBSet of Users (list of users):
 ```
-public DbSet<GoThereUser> GoThereUsers { get; set; }
+public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 ```
 
 ##### Startup.Configure and Startup.ConfigureServices
 
 In Startup.Configure Services, add/replace the current AddIdentity method with the following:
 ```
-services.AddIdentity<GoThereUser, IdentityRole>()
+services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders()
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -128,8 +128,8 @@ services.Configure<IdentityOptions>(options =>
 * In Shared/_LoginPartial.cshtml:
 ```
 @using GoThere.Areas.Identity.Data;
-@inject SignInManager<GoThereUser> SignInManager
-@inject UserManager<GoThereUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 ```
 This global shared partial view, requires the sign in and user manager services from the custom user class
 

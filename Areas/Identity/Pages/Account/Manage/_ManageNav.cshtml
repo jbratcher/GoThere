@@ -1,5 +1,5 @@
 ﻿@using GoThere.Areas.Identity.Data;
-@inject SignInManager<GoThereUser> SignInManager
+@inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
