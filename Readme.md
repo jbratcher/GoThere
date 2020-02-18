@@ -78,6 +78,14 @@ public DbSet<GoThereUser> GoThereUsers { get; set; }
 
 ##### Startup.Configure and Startup.ConfigureServices
 
+In Startup.Configure Services, add/replace the current AddIdentity method with the following:
+```
+services.AddIdentity<GoThereUser, IdentityRole>()
+    .AddDefaultTokenProviders()
+    .AddDefaultUI()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+```
+
 From `Startup.Configue`, set standard practice user authentication options including password strength requirements, validation, lockouts, and cookies:
 ```
 services.Configure<IdentityOptions>(options =>
@@ -111,14 +119,6 @@ services.Configure<IdentityOptions>(options =>
         options.AccessDeniedPath = "/Identity/Account/AccessDenied";
         options.SlidingExpiration = true;
     });
-```
-
-In Startup.Configure Services, add/replace the current AddIdentity method with the following:
-```
-services.AddIdentity<GoThereUser, IdentityRole>()
-    .AddDefaultTokenProviders()
-    .AddDefaultUI()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 ```
 
 ##### Views

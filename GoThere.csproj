@@ -7,6 +7,17 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20200213232704_InitialMigration.cs" />
+    <Compile Remove="Data\Migrations\20200213232704_InitialMigration.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200213233535_CreateUserModel.cs" />
+    <Compile Remove="Data\Migrations\20200213233535_CreateUserModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200213234217_CreateLocationModel.cs" />
+    <Compile Remove="Data\Migrations\20200213234217_CreateLocationModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200213234628_CreateLocationsSeeder.cs" />
+    <Compile Remove="Data\Migrations\20200213234628_CreateLocationsSeeder.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />

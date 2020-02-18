@@ -32,10 +32,10 @@ namespace GoThere
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<GoThereUser, IdentityRole>()
-                .AddDefaultTokenProviders()
+            services.AddDefaultIdentity<GoThereUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddDefaultTokenProviders();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
