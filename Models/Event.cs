@@ -18,7 +18,6 @@ namespace GoThere.Models
         public string Name { get; set; }
 
         [DataType(DataType.Text)]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
         [StringLength(3000, MinimumLength = 2)]
         [Required]
         public string Description { get; set; }

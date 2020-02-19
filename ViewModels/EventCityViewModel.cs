@@ -8,7 +8,7 @@ namespace GoThere.ViewModels
     {
         public List<Event> Events { get; set; }
         public SelectList Cities { get; set; }
-        public string LocationCity { get; set; }
+        public string EventCity { get; set; }
         public string SearchString { get; set; }
     }
 }
