@@ -1,4 +1,4 @@
-﻿@model GoThere.ViewModels.LocationCityViewModel;
+﻿@model GoThere.ViewModels.EventCityViewModel;
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<form asp-controller="Locations" asp-action="Index">
+<form asp-controller="Events" asp-action="Index">
     <p>
         <select asp-for="Cities" asp-items="Model.Cities">
             <option value="">All</option>
@@ -22,28 +22,28 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Locations[0].Name)
+                @Html.DisplayNameFor(model => model.Events[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Locations[0].StreetAddress)
+                @Html.DisplayNameFor(model => model.Events[0].StreetAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Locations[0].City)
+                @Html.DisplayNameFor(model => model.Events[0].City)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Locations[0].State)
+                @Html.DisplayNameFor(model => model.Events[0].State)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Locations[0].Country)
+                @Html.DisplayNameFor(model => model.Events[0].Country)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Locations[0].PostalCode)
+                @Html.DisplayNameFor(model => model.Events[0].PostalCode)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Locations)
+        @foreach (var item in Model.Events)
         {
             <tr>
                 <td>

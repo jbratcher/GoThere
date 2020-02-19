@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using GoThere.Data;
+using GoThere.Models;
 using System;
 using System.Linq;
 
-namespace GoThere.Models
+
+namespace GoThere.Data.Seeds
 {
     public static class SeedLocations
     {
@@ -15,12 +16,12 @@ namespace GoThere.Models
                     DbContextOptions<ApplicationDbContext>>()))
             {
                 // Look for any movies.
-                if (context.Location.Any())
+                if (context.Locations.Any())
                 {
                     return;   // DB has been seeded
                 }
 
-                context.Location.AddRange(
+                context.Locations.AddRange(
                     new Location
                     {
                         Name = "Space Needle",

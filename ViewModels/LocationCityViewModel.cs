@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using GoThere.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace GoThere.Models
+namespace GoThere.ViewModels
 {
     public class LocationCityViewModel
     {

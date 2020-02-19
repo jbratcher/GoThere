@@ -16,9 +16,8 @@ namespace GoThere.Data
             : base(options)
         {
         }
-        public DbSet<Location> Location { get; set; }
-
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Location> Locations { get; set; }
     }
 }
