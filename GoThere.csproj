@@ -18,6 +18,8 @@
     <Compile Remove="Data\Migrations\20200213234628_CreateLocationsSeeder.Designer.cs" />
     <Compile Remove="Migrations\20200218232420_InitialCreate.cs" />
     <Compile Remove="Migrations\20200218232420_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200221172752_UpdateEventModelOccupationIndustry.cs" />
+    <Compile Remove="Migrations\20200221172752_UpdateEventModelOccupationIndustry.Designer.cs" />
   </ItemGroup>
 
 

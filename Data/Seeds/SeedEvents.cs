@@ -36,6 +36,8 @@ namespace GoThere.Data.Seeds
                         State = "Kentucky",
                         Country = "USA",
                         PostalCode = "40202",
+                        Occupation = "Web Developer",
+                        Industry = "Internet",
                     },
                     new Event
                     {
@@ -51,10 +53,12 @@ namespace GoThere.Data.Seeds
                         State = "Colorado",
                         Country = "USA",
                         PostalCode = "80212",
+                        Occupation = "Software Developer",
+                        Industry = "Internet",
                     },
                     new Event
                     {
-                        Name = "New Event",
+                        Name = "Newer Event",
                         Description = "A lot of words show go here, full description",
                         Type = "Conference",
                         StartDateTime = DateTime.Now,
@@ -66,6 +70,8 @@ namespace GoThere.Data.Seeds
                         State = "New York",
                         Country = "USA",
                         PostalCode = "10001",
+                        Occupation = "Graphic Designer",
+                        Industry = "Marketing",
                     }
                 );
                 context.SaveChanges();

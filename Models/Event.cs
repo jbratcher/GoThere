@@ -36,6 +36,7 @@ namespace GoThere.Models
         [Required]
         public DateTime EndDateTime { get; set; }
 
+        [Column(TypeName = "decimal(18,4)")]
         [Required]
         public decimal Price { get; set; }
 
@@ -69,6 +70,16 @@ namespace GoThere.Models
         [StringLength(144, MinimumLength = 2)]
         [Required]
         public string PostalCode { get; set; }
+
+        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+        [StringLength(144, MinimumLength = 2)]
+        [Required]
+        public string Occupation { get; set; }
+
+        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+        [StringLength(144, MinimumLength = 2)]
+        [Required]
+        public string Industry { get; set; }
 
         //  TODO: how to get user input from text field and comma separated strings
         //  public List<string> Tags { get; set; }

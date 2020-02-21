@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GoThere.Data;
 using GoThere.Models;
 using GoThere.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GoThere.Controllers
 {
@@ -21,6 +22,7 @@ namespace GoThere.Controllers
         }
 
         // GET: Events
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string eventCity, string searchString)
         {
             // Use LINQ to get list of cities.
@@ -51,6 +53,7 @@ namespace GoThere.Controllers
         }
 
         // GET: Events/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -69,6 +72,7 @@ namespace GoThere.Controllers
         }
 
         // GET: Events/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -79,7 +83,7 @@ namespace GoThere.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Type,StartDateTime,EndDateTime,Price,LocationName,StreetAddress,City,State,Country,PostalCode")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Type,StartDateTime,EndDateTime,Price,LocationName,StreetAddress,City,State,Country,PostalCode,Occupation,Industry")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -91,6 +95,7 @@ namespace GoThere.Controllers
         }
 
         // GET: Events/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -111,7 +116,8 @@ namespace GoThere.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Description,Type,StartDateTime,EndDateTime,Price,LocationName,StreetAddress,City,State,Country,PostalCode")] Event @event)
+        [Authorize]
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Description,Type,StartDateTime,EndDateTime,Price,LocationName,StreetAddress,City,State,Country,PostalCode,Occupation,Industry")] Event @event)
         {
             if (id != @event.Id)
             {
@@ -142,6 +148,7 @@ namespace GoThere.Controllers
         }
 
         // GET: Events/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -162,6 +169,7 @@ namespace GoThere.Controllers
         // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var @event = await _context.Events.FindAsync(id);

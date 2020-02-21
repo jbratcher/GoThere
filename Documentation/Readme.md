@@ -21,6 +21,8 @@ git clone https://github.com/jbratcher/GoThere
 cd GoThere
 ```
 
+## Folder Structure
+
 ## Buidling from scratch
 
 Outlined below is the development process used to create this app.
@@ -139,7 +141,8 @@ This global shared partial view, requires the sign in and user manager services 
 
 ###### Manage Navigation page
 
-* In the _ManageNav page, update the user class to the custom user class.  
+* In the _ManageNav page, update the user class to the custom user class. 
+
 ###### Account/Manage view
 
 In Identity/Pages/Account/Manage/Index.cshtml.cs:  
@@ -192,6 +195,7 @@ At this point the application should be minimally functional allowing user actio
 * Inside the model class, add a variable with the type and name of the new field  
 * Attributes can be added like [Display()], [RegularExpression()], or [Required] by prepending the new field variable
 * Update any views that used the field
+* Update any controller routes like create and edit that may bind to the fields
 * Add a migration
 * Update database
 
@@ -199,3 +203,24 @@ At this point the application should be minimally functional allowing user actio
 
 * Form validation is provdied by the associated model's field attributes
 * [RegularExpression()], [Required], and [DataType()] are commonly used
+
+#### Add a view model 
+
+```
+namespace GoThere.ViewModels
+{
+    public class EventCityViewModel
+    {
+        public List<Event> Events { get; set; }
+        public SelectList Cities { get; set; }
+        public string EventCity { get; set; }
+        public string SearchString { get; set; }
+    }
+}
+```
+
+Create a list of events
+Create a select list of cities for the select element which filters by value
+Create a string field for the current city value
+Create a string field for the current search value
+

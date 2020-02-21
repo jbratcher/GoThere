@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GoThere.Data;
 using GoThere.Models;
 using GoThere.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GoThere.Controllers
 {
@@ -21,6 +22,7 @@ namespace GoThere.Controllers
         }
 
         // GET: Locations
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string locationCity, string searchString)
         {
             // Use LINQ to get list of cities.
@@ -51,6 +53,7 @@ namespace GoThere.Controllers
         }
 
         // GET: Locations/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -69,6 +72,7 @@ namespace GoThere.Controllers
         }
 
         // GET: Locations/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -91,6 +95,7 @@ namespace GoThere.Controllers
         }
 
         // GET: Locations/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -111,6 +116,7 @@ namespace GoThere.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StreetAddress,City,State,Country,PostalCode")] Location location)
         {
             if (id != location.Id)
@@ -142,6 +148,7 @@ namespace GoThere.Controllers
         }
 
         // GET: Locations/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -162,6 +169,7 @@ namespace GoThere.Controllers
         // POST: Locations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var location = await _context.Locations.FindAsync(id);
