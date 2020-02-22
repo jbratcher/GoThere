@@ -1,4 +1,4 @@
-﻿@model GoThere.ViewModels.EventCityViewModel;
+﻿@model GoThere.ViewModels.EventFilterViewModel;
 
 @{
     ViewData["Title"] = "Events";
@@ -11,7 +11,12 @@
 </p>
 <form asp-controller="Events" asp-action="Index">
     <p>
-        <select asp-for="EventCity" asp-items="Model.Cities">
+        Industry:
+        <select asp-for="EventIndustry" asp-items="Model.Industries" class="mr-3">
+            <option value="">All</option>
+        </select>
+        City:
+        <select asp-for="EventCity" asp-items="Model.Cities" class="mr-3">
             <option value="">All</option>
         </select>
         Location Name: <input type="text" name="SearchString">

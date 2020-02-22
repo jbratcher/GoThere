@@ -23,33 +23,48 @@ namespace GoThere.Controllers
 
         // GET: Events
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string eventCity, string searchString)
+        public async Task<IActionResult> Index(string eventCity, string eventIndustry, string searchString)
         {
+            // get list of events
+            var events = from l in _context.Events
+                         select l;
+
             // Use LINQ to get list of cities.
             IQueryable<string> cityQuery = from l in _context.Events
                                            orderby l.City
                                            select l.City;
 
-            var events = from l in _context.Events
-                            select l;
+            // Use LINQ to get list of industries
+            IQueryable<string> industryQuery = from i in _context.Events
+                                               orderby i.Industry
+                                               select i.Industry;
 
+            // check for name search string
             if (!string.IsNullOrEmpty(searchString))
             {
                 events = events.Where(s => s.Name.Contains(searchString));
             }
 
+            // check for industry selection
+            if (!string.IsNullOrEmpty(eventIndustry))
+            {
+                events = events.Where(x => x.Industry == eventIndustry);
+            }
+
+            // check for city selection
             if (!string.IsNullOrEmpty(eventCity))
             {
                 events = events.Where(x => x.City == eventCity);
             }
 
-            var eventCityVM = new EventCityViewModel
+            var eventFilterVM = new EventFilterViewModel
             {
                 Cities = new SelectList(await cityQuery.Distinct().ToListAsync()),
+                Industries = new SelectList(await industryQuery.Distinct().ToListAsync()),
                 Events = await events.ToListAsync()
             };
 
-            return View(eventCityVM);
+            return View(eventFilterVM);
         }
 
         // GET: Events/Details/5
