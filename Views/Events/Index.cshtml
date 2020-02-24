@@ -11,6 +11,18 @@
 </p>
 <form asp-controller="Events" asp-action="Index">
     <p>
+        Location Name: <input type="text" name="SearchString">
+        <input type="submit" value="Filter" />
+    </p>
+    <p>
+        Type:
+        <select asp-for="EventType" asp-items="Model.Types" class="mr-3">
+            <option value="">All</option>
+        </select>
+        Occupation:
+        <select asp-for="EventOccupation" asp-items="Model.Occupations" class="mr-3">
+            <option value="">All</option>
+        </select>
         Industry:
         <select asp-for="EventIndustry" asp-items="Model.Industries" class="mr-3">
             <option value="">All</option>
@@ -19,8 +31,10 @@
         <select asp-for="EventCity" asp-items="Model.Cities" class="mr-3">
             <option value="">All</option>
         </select>
-        Location Name: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
+        Industry:
+        <select asp-for="EventState" asp-items="Model.States" class="mr-3">
+            <option value="">All</option>
+        </select>
     </p>
 </form>
 <table class="table">

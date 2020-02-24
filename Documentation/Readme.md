@@ -224,3 +224,47 @@ Create a select list of cities for the select element which filters by value
 Create a string field for the current city value
 Create a string field for the current search value
 
+#### Add filters to view models (pivot table function)
+
+For each filterable property, add a SelectList and string in the view model  
+```
+public class EventFilterViewModel
+{
+    public List<Event> Events { get; set; }
+    public SelectList Types { get; set; }
+    ...
+    public string EventType { get; set; }
+    ...
+}
+```
+In the controller index method, add a string parameter to accept the filterable value (ex. string eventType)  
+In the index method, add a LINQ Query to capture the column that is represented by the parameter (ex. type column)  
+```
+// Use LINQ to get list of types
+IQueryable<string> typeQuery = from t in _context.Events
+                                orderby t.Type
+                                select t.Type;
+```
+In the index method, add a assignment that filters the events by that parameter that is used in input (not empty or null)  
+```
+// check for industry selection
+if (!string.IsNullOrEmpty(eventType))
+{
+    events = events.Where(x => x.Type== eventType);
+}
+```
+Assign the view model variable to a new view model setting each property of the viewmodel (filter properties are a select list)
+```
+ var eventFilterVM = new EventFilterViewModel
+{
+    Events = await events.ToListAsync(),
+    Types = new SelectList(await typeQuery.Distinct().ToListAsync()),
+    ...
+};
+```
+Return the view model variable  
+```
+return View(eventFilterVM);
+```
+
+
