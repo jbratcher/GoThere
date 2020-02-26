@@ -42,6 +42,8 @@
             <th></th>
         </tr>
     </thead>
+    @if (Model.Locations.Count > 0)
+    {
     <tbody>
         @foreach (var item in Model.Locations)
         {
@@ -72,4 +74,9 @@
             </tr>
         }
     </tbody>
+    }
+    else
+    {
+        <tbody>No Locations found</tbody>
+    }
 </table>

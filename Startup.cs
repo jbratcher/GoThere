@@ -36,7 +36,7 @@ namespace GoThere
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.Configure<IdentityOptions>(options =>
             {
