@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using GoThere.Data;
 using GoThere.Models;
 using GoThere.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 
 namespace GoThere.Controllers
 {
@@ -20,6 +23,9 @@ namespace GoThere.Controllers
         {
             _context = context;
         }
+
+        private static readonly string ApiAccessToken = "cBkkg4ZBqtEyJF1wPACn9HO2Rg0f3JOOjqwEUd3L";
+
 
         // GET: Events
         [AllowAnonymous]
@@ -233,5 +239,24 @@ namespace GoThere.Controllers
         {
             return _context.Events.Any(e => e.Id == id);
         }
+
+        [Authorize]
+        public async Task<IDisposable> SearchNewEvents()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://api.predicthq.com/v1");
+                // client.DefaultRequestHeaders.Add("Authorization", "Bearer " + ApiAccessToken);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiAccessToken);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+
+                var response = await client.GetAsync("/events/");
+                response.EnsureSuccessStatusCode();
+
+                return response.Content.ReadAsStringAsync();
+            }
+
+        }
+
     }
 }
