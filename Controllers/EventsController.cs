@@ -241,20 +241,31 @@ namespace GoThere.Controllers
         }
 
         [Authorize]
-        public async Task<IDisposable> SearchNewEvents()
+        public async Task<JsonResult> SearchNewEvents()
         {
+            // get a list of new events from predicthq event api
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://api.predicthq.com/v1");
-                // client.DefaultRequestHeaders.Add("Authorization", "Bearer " + ApiAccessToken);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiAccessToken);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
 
                 var response = await client.GetAsync("/events/");
-                response.EnsureSuccessStatusCode();
 
-                return response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = response.Content.ReadAsStringAsync().Result;
+                    var eventsJson = JsonConvert.DeserializeObject(result);
+                    return Json(eventsJson);
+                }
+                else
+                {
+                    return null;
+                }
+
             }
+
+
 
         }
 

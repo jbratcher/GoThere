@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using GoThere.Data;
@@ -38,6 +39,8 @@ namespace GoThere
             services.AddControllersWithViews();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.AddMvc().AddNewtonsoftJson();
 
             services.Configure<IdentityOptions>(options =>
             {
