@@ -13,16 +13,20 @@ using GoThere.Data;
 using GoThere.Models;
 using GoThere.ViewModels;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Identity;
+using GoThere.Areas.Identity.Data;
 
 namespace GoThere.Controllers
 {
     public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public EventsController(ApplicationDbContext context)
+        public EventsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         private static readonly string ApiAccessToken = "cBkkg4ZBqtEyJF1wPACn9HO2Rg0f3JOOjqwEUd3L";
@@ -196,13 +200,18 @@ namespace GoThere.Controllers
         [Authorize]
         public async Task<IActionResult> SearchNewEvents()
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+
+            string categories = "?category=conferences,expos";
+            string query = $"?q={applicationUser.Occupation}";
+
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://api.predicthq.com/v1");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiAccessToken);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-                var response = await client.GetAsync("/events/");
+                var response = await client.GetAsync($"/events/{categories}&{query}&country=US");
                 response.EnsureSuccessStatusCode();
                 var responseString = await response.Content.ReadAsStringAsync();
                 JObject eventSearch = JObject.Parse(responseString);
@@ -214,6 +223,7 @@ namespace GoThere.Controllers
                     // JToken.ToObject is a helper method that uses JsonSerializer internally
                     Event searchResult = result.ToObject<Event>();
                     searchResults.Add(searchResult);
+
                     if (!EventExists(searchResult.Id))
                     {
                         _context.Add(searchResult);
@@ -222,6 +232,7 @@ namespace GoThere.Controllers
                     {
                         _context.Update(searchResult);
                     }
+
                     await _context.SaveChangesAsync();
                 }
 
