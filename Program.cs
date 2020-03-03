@@ -25,7 +25,6 @@ namespace GoThere
                 try
                 {
                     SeedLocations.Initialize(services);
-                    SeedEvents.Initialize(services);
                 }
                 catch (Exception ex)
                 {

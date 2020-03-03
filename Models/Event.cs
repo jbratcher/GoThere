@@ -8,81 +8,30 @@ namespace GoThere.Models
     public class Event
     {
 
-        [Required]
-        public string Id { get; set; } = DateTime.UtcNow.Ticks.ToString();
-
-        [DataType(DataType.Text)]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(144, MinimumLength = 2)]
-        [Required]
-        public string Name { get; set; }
-
-        [DataType(DataType.Text)]
-        [StringLength(3000, MinimumLength = 2)]
-        [Required]
+        public double Relevance { get; set; }
+        public string Id { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
-
-        [DataType(DataType.Text)]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(144, MinimumLength = 2)]
-        [Required]
-        public string Type { get; set; }
-
-        [DataType(DataType.Date)]
-        [Required]
-        public DateTime StartDateTime{ get; set; }
-
-        [DataType(DataType.Date)]
-        [Required]
-        public DateTime EndDateTime { get; set; }
-
-        [Column(TypeName = "decimal(18,4)")]
-        [Required]
-        public decimal Price { get; set; }
-
-        [DataType(DataType.Text)]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(144, MinimumLength = 2)]
-        [Required]
-        public string LocationName { get; set; }
-
-        [Display(Name = "Street Address")]
-        [StringLength(288, MinimumLength = 2)]
-        [Required]
-        public string StreetAddress { get; set; }
-
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(144, MinimumLength = 2)]
-        [Required]
-        public string City { get; set; }
-
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(144, MinimumLength = 2)]
-        [Required]
-        public string State { get; set; }
-
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(144, MinimumLength = 2)]
-        [Required]
+        public string Category { get; set; }
+        [NotMapped]
+        public List<string> Labels { get; set; }
+        public int Rank { get; set; }
+        public int Local_rank { get; set; }
+        [NotMapped]
+        public List<object> Entities { get; set; }
+        public int Duration { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public DateTime Updated { get; set; }
+        public DateTime First_seen { get; set; }
+        public string Timezone { get; set; }
+        [NotMapped]
+        public List<double> Location { get; set; }
+        public string Scope { get; set; }
         public string Country { get; set; }
-
-        [Display(Name = "Postal Code")]
-        [StringLength(144, MinimumLength = 2)]
-        [Required]
-        public string PostalCode { get; set; }
-
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(144, MinimumLength = 2)]
-        [Required]
-        public string Occupation { get; set; }
-
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(144, MinimumLength = 2)]
-        [Required]
-        public string Industry { get; set; }
-
-        //  TODO: how to get user input from text field and comma separated strings
-        //  public List<string> Tags { get; set; }
+        [NotMapped]
+        public List<List<string>> Place_hierarchies { get; set; }
+        public string State { get; set; }
 
     }
 }

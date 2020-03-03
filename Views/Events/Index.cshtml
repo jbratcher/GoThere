@@ -19,23 +19,7 @@
     </p>
     <p>
         Type:
-        <select asp-for="EventType" asp-items="Model.Types" class="mr-3">
-            <option value="">All</option>
-        </select>
-        Occupation:
-        <select asp-for="EventOccupation" asp-items="Model.Occupations" class="mr-3">
-            <option value="">All</option>
-        </select>
-        Industry:
-        <select asp-for="EventIndustry" asp-items="Model.Industries" class="mr-3">
-            <option value="">All</option>
-        </select>
-        City:
-        <select asp-for="EventCity" asp-items="Model.Cities" class="mr-3">
-            <option value="">All</option>
-        </select>
-        Industry:
-        <select asp-for="EventState" asp-items="Model.States" class="mr-3">
+        <select asp-for="EventCategory" asp-items="Model.Categories" class="mr-3">
             <option value="">All</option>
         </select>
     </p>
@@ -44,30 +28,11 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Events[0].Name)
+                @Html.DisplayNameFor(model => model.Events[0].Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Events[0].StreetAddress)
+                @Html.DisplayNameFor(model => model.Events[0].Category)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Events[0].City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Events[0].State)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Events[0].Country)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Events[0].PostalCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Events[0].Occupation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Events[0].Industry)
-            </th>
-            <th></th>
         </tr>
     </thead>
     @if (Model.Events.Count > 0)
@@ -77,28 +42,10 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => item.Title)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.StreetAddress)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.State)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Country)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PostalCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Occupation)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Industry)
+                        @Html.DisplayFor(modelItem => item.Category)
                     </td>
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

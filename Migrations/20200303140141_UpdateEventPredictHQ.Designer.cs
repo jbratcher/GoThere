@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoThere.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200221173154_UpdateEventModelOccupationIndustry")]
-    partial class UpdateEventModelOccupationIndustry
+    [Migration("20200303140141_UpdateEventPredictHQ")]
+    partial class UpdateEventPredictHQ
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -117,69 +117,50 @@ namespace GoThere.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(144)")
-                        .HasMaxLength(144);
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(144)")
-                        .HasMaxLength(144);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(3000)")
-                        .HasMaxLength(3000);
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDateTime")
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("End")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Industry")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(144)")
-                        .HasMaxLength(144);
+                    b.Property<DateTime>("First_seen")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("LocationName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(144)")
-                        .HasMaxLength(144);
+                    b.Property<int>("Local_rank")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(144)")
-                        .HasMaxLength(144);
+                    b.Property<int>("Rank")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Occupation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(144)")
-                        .HasMaxLength(144);
+                    b.Property<double>("Relevance")
+                        .HasColumnType("float");
 
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(144)")
-                        .HasMaxLength(144);
+                    b.Property<string>("Scope")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<DateTime>("StartDateTime")
+                    b.Property<DateTime>("Start")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(144)")
-                        .HasMaxLength(144);
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StreetAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(288)")
-                        .HasMaxLength(288);
+                    b.Property<string>("Timezone")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(144)")
-                        .HasMaxLength(144);
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

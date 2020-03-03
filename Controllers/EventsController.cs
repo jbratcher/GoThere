@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using GoThere.Data;
 using GoThere.Models;
 using GoThere.ViewModels;
+using Newtonsoft.Json.Linq;
 
 namespace GoThere.Controllers
 {
@@ -29,81 +30,33 @@ namespace GoThere.Controllers
 
         // GET: Events
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string eventType, string eventOccupation, string eventIndustry, string eventCity, string eventState, string searchString)
+        public async Task<IActionResult> Index(string eventCategory, string searchString)
         {
             // get list of events
             var events = from l in _context.Events
                          select l;
 
             // Use LINQ to get list of types
-            IQueryable<string> typeQuery = from t in _context.Events
-                                           orderby t.Type
-                                           select t.Type;
-
-            // Use LINQ to get list of occupations
-            IQueryable<string> occupationQuery = from o in _context.Events
-                                               orderby o.Industry
-                                               select o.Industry;
-
-            // Use LINQ to get list of industries
-            IQueryable<string> industryQuery = from i in _context.Events
-                                               orderby i.Industry
-                                               select i.Industry;
-
-            // Use LINQ to get list of cities.
-            IQueryable<string> cityQuery = from c in _context.Events
-                                           orderby c.City
-                                           select c.City;
-
-            // Use LINQ to get list of states.
-            IQueryable<string> stateQuery = from s in _context.Events
-                                            orderby s.City
-                                            select s.City;
+            IQueryable<string> categoryQuery = from t in _context.Events
+                                           orderby t.Category
+                                           select t.Category;
 
             // check for name search string
             if (!string.IsNullOrEmpty(searchString))
             {
-                events = events.Where(s => s.Name.Contains(searchString));
+                events = events.Where(s => s.Title.Contains(searchString));
             }
 
             // check for industry selection
-            if (!string.IsNullOrEmpty(eventType))
+            if (!string.IsNullOrEmpty(eventCategory))
             {
-                events = events.Where(x => x.Type== eventType);
-            }
-
-            // check for industry selection
-            if (!string.IsNullOrEmpty(eventOccupation))
-            {
-                events = events.Where(x => x.Occupation== eventOccupation);
-            }
-
-            // check for industry selection
-            if (!string.IsNullOrEmpty(eventIndustry))
-            {
-                events = events.Where(x => x.Industry == eventIndustry);
-            }
-
-            // check for city selection
-            if (!string.IsNullOrEmpty(eventCity))
-            {
-                events = events.Where(x => x.City == eventCity);
-            }
-
-            // check for city selection
-            if (!string.IsNullOrEmpty(eventState))
-            {
-                events = events.Where(x => x.State== eventState);
+                events = events.Where(x => x.Category== eventCategory);
             }
 
             var eventFilterVM = new EventFilterViewModel
             {
                 Events = await events.ToListAsync(),
-                Types = new SelectList(await typeQuery.Distinct().ToListAsync()),
-                Occupations = new SelectList(await occupationQuery.Distinct().ToListAsync()),
-                Industries = new SelectList(await industryQuery.Distinct().ToListAsync()),
-                Cities = new SelectList(await cityQuery.Distinct().ToListAsync()),
-                States = new SelectList(await stateQuery.Distinct().ToListAsync())
+                Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
             };
 
             return View(eventFilterVM);
@@ -241,9 +194,8 @@ namespace GoThere.Controllers
         }
 
         [Authorize]
-        public async Task<JsonResult> SearchNewEvents()
+        public async Task<IActionResult> SearchNewEvents()
         {
-            // get a list of new events from predicthq event api
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://api.predicthq.com/v1");
@@ -251,22 +203,31 @@ namespace GoThere.Controllers
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
 
                 var response = await client.GetAsync("/events/");
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+                JObject eventSearch = JObject.Parse(responseString);
+                IList<JToken> results = eventSearch["results"].Children().ToList();
+                IList<Event> searchResults = new List<Event>();
 
-                if (response.IsSuccessStatusCode)
+                foreach (JToken result in results)
                 {
-                    var result = response.Content.ReadAsStringAsync().Result;
-                    var eventsJson = JsonConvert.DeserializeObject(result);
-                    return Json(eventsJson);
+                    // JToken.ToObject is a helper method that uses JsonSerializer internally
+                    Event searchResult = result.ToObject<Event>();
+                    searchResults.Add(searchResult);
+                    if (!EventExists(searchResult.Id))
+                    {
+                        _context.Add(searchResult);
+                    }
+                    else
+                    {
+                        _context.Update(searchResult);
+                    }
+                    await _context.SaveChangesAsync();
                 }
-                else
-                {
-                    return null;
-                }
+
+                return Redirect("/Events");
 
             }
-
-
-
         }
 
     }
